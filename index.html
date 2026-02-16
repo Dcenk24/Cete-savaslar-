@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gangster Wars - Online Mafya Oyunu</title>
-    <meta name="description" content="Ücretsiz online mafya oyunu. Çete kur, düşmanlarına saldır, imparatorluğunu büyüt!">
-    <meta name="keywords" content="mafya oyunu, online oyun, browser game, türkçe oyun, gangster wars">
+    <title>Gangster Wars - Görsel Versiyon</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -14,7 +12,7 @@
             color: white;
             padding: 10px;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
+        .container { max-width: 1400px; margin: 0 auto; }
         .header {
             background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
             padding: 20px;
@@ -23,27 +21,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .header h1 { font-size: 32px; margin-bottom: 5px; }
-        .login-screen {
-            max-width: 400px;
-            margin: 100px auto;
-            background: rgba(0,0,0,0.5);
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid rgba(231, 76, 60, 0.5);
-        }
-        .login-screen h2 { text-align: center; margin-bottom: 30px; font-size: 28px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-size: 14px; }
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-        .form-group input:focus { outline: none; border-color: #e74c3c; }
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -99,7 +76,7 @@
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
@@ -108,14 +85,27 @@
             padding: 15px;
             border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
         }
         .card:hover {
             background: rgba(255,255,255,0.08);
             cursor: pointer;
+            transform: translateY(-5px);
         }
         .card.disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .card-content {
+            display: flex;
+            flex-direction: column;
         }
         button {
             padding: 10px 20px;
@@ -138,8 +128,6 @@
         .btn-red:hover { background: #c0392b; }
         .btn-blue { background: #3498db; }
         .btn-blue:hover { background: #2980b9; }
-        .btn-purple { background: #9b59b6; }
-        .btn-purple:hover { background: #8e44ad; }
         .notifications {
             position: fixed;
             top: 20px;
@@ -166,137 +154,38 @@
         .text-red { color: #e74c3c; }
         .text-blue { color: #3498db; }
         .text-yellow { color: #f39c12; }
-        .text-purple { color: #9b59b6; }
         .mt-2 { margin-top: 10px; }
         .mb-2 { margin-bottom: 10px; }
         h2 { margin-bottom: 15px; font-size: 24px; }
         h3 { margin-bottom: 10px; font-size: 18px; }
         .flex { display: flex; justify-content: space-between; align-items: center; }
         .flex-col { display: flex; flex-direction: column; gap: 5px; }
-        .leaderboard-item {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border-left: 4px solid #e74c3c;
-        }
-        .rank-1 { border-left-color: #f1c40f; }
-        .rank-2 { border-left-color: #bdc3c7; }
-        .rank-3 { border-left-color: #cd7f32; }
-        .online-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #2ecc71;
-            border-radius: 50%;
-            margin-right: 5px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .chat-container {
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        .chat-message {
-            padding: 8px;
-            margin-bottom: 8px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 6px;
-        }
-        .chat-input {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .chat-input input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 6px;
-        }
-        .loading {
-            text-align: center;
-            padding: 50px;
-            font-size: 18px;
-        }
-        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <div id="loginScreen" class="login-screen">
-        <h2>🔫 Gangster Wars</h2>
-        <div id="loginForm">
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="loginEmail" placeholder="ornek@email.com">
-            </div>
-            <div class="form-group">
-                <label>Şifre</label>
-                <input type="password" id="loginPassword" placeholder="******">
-            </div>
-            <button onclick="auth.login()">Giriş Yap</button>
-            <button class="btn-blue" onclick="auth.showRegister()" style="margin-top: 10px;">Kayıt Ol</button>
-            <button class="btn-purple" onclick="auth.guestLogin()" style="margin-top: 10px;">Misafir Olarak Gir</button>
-        </div>
-        <div id="registerForm" class="hidden">
-            <div class="form-group">
-                <label>Kullanıcı Adı</label>
-                <input type="text" id="regUsername" placeholder="Gangster123">
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="regEmail" placeholder="ornek@email.com">
-            </div>
-            <div class="form-group">
-                <label>Şifre</label>
-                <input type="password" id="regPassword" placeholder="******">
-            </div>
-            <button onclick="auth.register()">Kayıt Ol</button>
-            <button class="btn-blue" onclick="auth.showLogin()" style="margin-top: 10px;">Giriş Ekranı</button>
-        </div>
-    </div>
-
-    <div id="gameScreen" class="container hidden">
+    <div class="container">
         <div class="header">
-            <div class="flex">
-                <div>
-                    <h1>🔫 Gangster Wars</h1>
-                    <p>Suç imparatorluğunu kur ve sokakların kralı ol!</p>
-                </div>
-                <div>
-                    <span class="online-indicator"></span>
-                    <span id="onlineCount">0</span> online
-                    <button class="btn-red" onclick="auth.logout()" style="margin-top: 10px; width: auto; padding: 8px 16px;">Çıkış</button>
-                </div>
-            </div>
+            <h1>🔫 Gangster Wars</h1>
+            <p>Suç imparatorluğunu kur ve sokakların kralı ol!</p>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <h3 id="playerName">Loading...</h3>
+                <h3 id="playerName">Rookie Gangster</h3>
                 <p class="text-yellow" id="playerLevel">Level 1</p>
                 <p class="text-small" id="playerXp">XP: 0/100</p>
                 
                 <div class="mt-2">
                     <div class="flex"><span>Energy</span><span id="energyText">50/50</span></div>
-                    <div class="stat-bar"><div class="stat-fill energy" id="energyBar" style="width: 100%"></div></div>
+                    <div class="stat-bar"><div class="stat-fill energy" id="energyBar"></div></div>
                 </div>
                 <div class="mt-2">
                     <div class="flex"><span>Stamina</span><span id="staminaText">20/20</span></div>
-                    <div class="stat-bar"><div class="stat-fill stamina" id="staminaBar" style="width: 100%"></div></div>
+                    <div class="stat-bar"><div class="stat-fill stamina" id="staminaBar"></div></div>
                 </div>
                 <div class="mt-2">
                     <div class="flex"><span>Health</span><span id="healthText">100/100</span></div>
-                    <div class="stat-bar"><div class="stat-fill health" id="healthBar" style="width: 100%"></div></div>
+                    <div class="stat-bar"><div class="stat-fill health" id="healthBar"></div></div>
                 </div>
             </div>
 
@@ -304,7 +193,7 @@
                 <h3>💰 Para</h3>
                 <div class="mb-2">
                     <p class="text-small">Nakit (riskli)</p>
-                    <p class="text-green" style="font-size: 24px;" id="cashAmount">$0</p>
+                    <p class="text-green" style="font-size: 24px;" id="cashAmount">$1,000</p>
                 </div>
                 <div>
                     <p class="text-small">Banka (güvenli)</p>
@@ -326,7 +215,7 @@
                     <p class="text-small">Çete Boyutu</p>
                     <p class="text-yellow" style="font-size: 24px;" id="gangSize">1</p>
                 </div>
-                <p class="text-small mt-2">Liderlik Sıralaması: <span class="text-purple" id="playerRank">#-</span></p>
+                <button onclick="game.inviteFriend()">+ Arkadaş Davet Et</button>
             </div>
         </div>
 
@@ -335,317 +224,16 @@
             <button class="tab" onclick="game.switchTab('fight')">Dövüş</button>
             <button class="tab" onclick="game.switchTab('shop')">Market</button>
             <button class="tab" onclick="game.switchTab('properties')">Mülkler</button>
-            <button class="tab" onclick="game.switchTab('leaderboard')">Liderlik</button>
-            <button class="tab" onclick="game.switchTab('chat')">Sohbet</button>
             <button class="tab" onclick="game.switchTab('bank')">Banka</button>
         </div>
 
-        <div class="content" id="content">
-            <div class="loading">Yükleniyor...</div>
-        </div>
+        <div class="content" id="content"></div>
     </div>
 
     <div class="notifications" id="notifications"></div>
 
     <script>
-        // ===========================================
-        // FIREBASE CONFIGURATION (PLACEHOLDER)
-        // ===========================================
-        // ÖNEMLİ: Bu bilgileri Firebase Console'dan alacaksınız
-        // Şimdilik localStorage ile simulate ediyoruz
-        
-        const FIREBASE_CONFIG = {
-            // Firebase projenizi oluşturduktan sonra buraya ekleyeceksiniz:
-            // apiKey: "YOUR_API_KEY",
-            // authDomain: "YOUR_PROJECT.firebaseapp.com",
-            // databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-            // projectId: "YOUR_PROJECT",
-            // storageBucket: "YOUR_PROJECT.appspot.com",
-            // messagingSenderId: "YOUR_SENDER_ID",
-            // appId: "YOUR_APP_ID"
-        };
-
-        // ===========================================
-        // MOCK FIREBASE (Gerçek Firebase kurulana kadar)
-        // ===========================================
-        const mockFirebase = {
-            users: JSON.parse(localStorage.getItem('fb_users') || '{}'),
-            gameData: JSON.parse(localStorage.getItem('fb_gamedata') || '{}'),
-            leaderboard: JSON.parse(localStorage.getItem('fb_leaderboard') || '[]'),
-            chat: JSON.parse(localStorage.getItem('fb_chat') || '[]'),
-            
-            save() {
-                localStorage.setItem('fb_users', JSON.stringify(this.users));
-                localStorage.setItem('fb_gamedata', JSON.stringify(this.gameData));
-                localStorage.setItem('fb_leaderboard', JSON.stringify(this.leaderboard));
-                localStorage.setItem('fb_chat', JSON.stringify(this.chat));
-            },
-            
-            auth: {
-                currentUser: null,
-                
-                signInWithEmailAndPassword(email, password) {
-                    return new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            const user = mockFirebase.users[email];
-                            if (user && user.password === password) {
-                                this.currentUser = { uid: user.uid, email: email };
-                                resolve({ user: this.currentUser });
-                            } else {
-                                reject(new Error('Email veya şifre hatalı'));
-                            }
-                        }, 500);
-                    });
-                },
-                
-                createUserWithEmailAndPassword(email, password) {
-                    return new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            if (mockFirebase.users[email]) {
-                                reject(new Error('Bu email zaten kullanılıyor'));
-                            } else {
-                                const uid = 'user_' + Date.now();
-                                mockFirebase.users[email] = {
-                                    uid: uid,
-                                    password: password,
-                                    createdAt: Date.now()
-                                };
-                                this.currentUser = { uid: uid, email: email };
-                                mockFirebase.save();
-                                resolve({ user: this.currentUser });
-                            }
-                        }, 500);
-                    });
-                },
-                
-                signInAnonymously() {
-                    return new Promise((resolve) => {
-                        setTimeout(() => {
-                            const uid = 'guest_' + Date.now();
-                            this.currentUser = { uid: uid, email: null, isAnonymous: true };
-                            resolve({ user: this.currentUser });
-                        }, 500);
-                    });
-                },
-                
-                signOut() {
-                    this.currentUser = null;
-                    return Promise.resolve();
-                }
-            },
-            
-            database: {
-                ref(path) {
-                    return {
-                        set(data) {
-                            const keys = path.split('/').filter(k => k);
-                            let obj = mockFirebase.gameData;
-                            for (let i = 0; i < keys.length - 1; i++) {
-                                if (!obj[keys[i]]) obj[keys[i]] = {};
-                                obj = obj[keys[i]];
-                            }
-                            obj[keys[keys.length - 1]] = data;
-                            mockFirebase.save();
-                            return Promise.resolve();
-                        },
-                        
-                        update(data) {
-                            const keys = path.split('/').filter(k => k);
-                            let obj = mockFirebase.gameData;
-                            for (let i = 0; i < keys.length - 1; i++) {
-                                if (!obj[keys[i]]) obj[keys[i]] = {};
-                                obj = obj[keys[i]];
-                            }
-                            obj[keys[keys.length - 1]] = {
-                                ...obj[keys[keys.length - 1]],
-                                ...data
-                            };
-                            mockFirebase.save();
-                            return Promise.resolve();
-                        },
-                        
-                        once(eventType) {
-                            return new Promise((resolve) => {
-                                setTimeout(() => {
-                                    const keys = path.split('/').filter(k => k);
-                                    let obj = mockFirebase.gameData;
-                                    for (let key of keys) {
-                                        obj = obj?.[key];
-                                    }
-                                    resolve({
-                                        val() { return obj || null; }
-                                    });
-                                }, 100);
-                            });
-                        },
-                        
-                        on(eventType, callback) {
-                            // Simplified - would need proper implementation
-                            setInterval(() => {
-                                const keys = path.split('/').filter(k => k);
-                                let obj = mockFirebase.gameData;
-                                for (let key of keys) {
-                                    obj = obj?.[key];
-                                }
-                                callback({ val() { return obj || null; } });
-                            }, 5000);
-                        }
-                    };
-                }
-            }
-        };
-
-        // ===========================================
-        // AUTHENTICATION SYSTEM
-        // ===========================================
-        const auth = {
-            currentUser: null,
-            
-            showLogin() {
-                document.getElementById('loginForm').classList.remove('hidden');
-                document.getElementById('registerForm').classList.add('hidden');
-            },
-            
-            showRegister() {
-                document.getElementById('loginForm').classList.add('hidden');
-                document.getElementById('registerForm').classList.remove('hidden');
-            },
-            
-            async login() {
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-                
-                if (!email || !password) {
-                    alert('Lütfen tüm alanları doldurun');
-                    return;
-                }
-                
-                try {
-                    const userCredential = await mockFirebase.auth.signInWithEmailAndPassword(email, password);
-                    this.currentUser = userCredential.user;
-                    await this.loadGame();
-                } catch (error) {
-                    alert(error.message);
-                }
-            },
-            
-            async register() {
-                const username = document.getElementById('regUsername').value;
-                const email = document.getElementById('regEmail').value;
-                const password = document.getElementById('regPassword').value;
-                
-                if (!username || !email || !password) {
-                    alert('Lütfen tüm alanları doldurun');
-                    return;
-                }
-                
-                if (password.length < 6) {
-                    alert('Şifre en az 6 karakter olmalı');
-                    return;
-                }
-                
-                try {
-                    const userCredential = await mockFirebase.auth.createUserWithEmailAndPassword(email, password);
-                    this.currentUser = userCredential.user;
-                    
-                    // Create initial game data
-                    await mockFirebase.database.ref('users/' + this.currentUser.uid).set({
-                        username: username,
-                        player: {
-                            name: username,
-                            level: 1,
-                            xp: 0,
-                            xpToNext: 100,
-                            energy: 50,
-                            maxEnergy: 50,
-                            stamina: 20,
-                            maxStamina: 20,
-                            health: 100,
-                            maxHealth: 100,
-                            cash: 1000,
-                            bank: 0,
-                            gangSize: 1
-                        },
-                        inventory: [],
-                        properties: [],
-                        lastIncome: Date.now(),
-                        createdAt: Date.now()
-                    });
-                    
-                    await this.loadGame();
-                } catch (error) {
-                    alert(error.message);
-                }
-            },
-            
-            async guestLogin() {
-                try {
-                    const userCredential = await mockFirebase.auth.signInAnonymously();
-                    this.currentUser = userCredential.user;
-                    
-                    // Create guest game data
-                    await mockFirebase.database.ref('users/' + this.currentUser.uid).set({
-                        username: 'Misafir_' + Date.now().toString().slice(-4),
-                        player: {
-                            name: 'Misafir',
-                            level: 1,
-                            xp: 0,
-                            xpToNext: 100,
-                            energy: 50,
-                            maxEnergy: 50,
-                            stamina: 20,
-                            maxStamina: 20,
-                            health: 100,
-                            maxHealth: 100,
-                            cash: 1000,
-                            bank: 0,
-                            gangSize: 1
-                        },
-                        inventory: [],
-                        properties: [],
-                        lastIncome: Date.now(),
-                        isGuest: true
-                    });
-                    
-                    await this.loadGame();
-                } catch (error) {
-                    alert(error.message);
-                }
-            },
-            
-            async loadGame() {
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('gameScreen').classList.remove('hidden');
-                
-                const snapshot = await mockFirebase.database.ref('users/' + this.currentUser.uid).once('value');
-                const userData = snapshot.val();
-                
-                if (userData) {
-                    game.player = userData.player;
-                    game.inventory = userData.inventory || [];
-                    game.properties = userData.properties || [];
-                    game.lastIncome = userData.lastIncome || Date.now();
-                    game.username = userData.username;
-                    
-                    game.init();
-                }
-            },
-            
-            async logout() {
-                await game.saveToCloud();
-                await mockFirebase.auth.signOut();
-                this.currentUser = null;
-                document.getElementById('loginScreen').classList.remove('hidden');
-                document.getElementById('gameScreen').classList.add('hidden');
-                this.showLogin();
-            }
-        };
-
-        // ===========================================
-        // GAME LOGIC
-        // ===========================================
         const game = {
-            username: '',
             player: {
                 name: "Rookie Gangster",
                 level: 1,
@@ -664,136 +252,49 @@
             inventory: [],
             properties: [],
             currentTab: 'jobs',
+            lastSave: Date.now(),
             lastIncome: Date.now(),
-            leaderboard: [],
-            chatMessages: [],
 
             jobs: [
-                { id: 1, name: "Yankesicilik", energy: 5, min: 50, max: 100, xp: 10, lvl: 1 },
-                { id: 2, name: "Gasp", energy: 8, min: 80, max: 150, xp: 15, lvl: 1 },
-                { id: 3, name: "Dükkan Soygunu", energy: 12, min: 200, max: 400, xp: 30, lvl: 3 },
-                { id: 4, name: "Araba Hırsızlığı", energy: 15, min: 300, max: 600, xp: 45, lvl: 5 },
-                { id: 5, name: "Banka Soygunu", energy: 25, min: 800, max: 1500, xp: 100, lvl: 8 },
-                { id: 6, name: "Kumarhane Soygunu", energy: 35, min: 2000, max: 4000, xp: 200, lvl: 12 }
+                { id: 1, name: "Yankesicilik", energy: 5, min: 50, max: 100, xp: 10, lvl: 1, image: "assets/job_pickpocket.jpg" },
+                { id: 2, name: "Gasp", energy: 8, min: 80, max: 150, xp: 15, lvl: 1, image: "assets/job_mugging.jpg" },
+                { id: 3, name: "Dükkan Soygunu", energy: 12, min: 200, max: 400, xp: 30, lvl: 3, image: "assets/job_shop_robbery.jpg" },
+                { id: 4, name: "Araba Hırsızlığı", energy: 15, min: 300, max: 600, xp: 45, lvl: 5, image: "assets/job_car_theft.jpg" },
+                { id: 5, name: "Banka Soygunu", energy: 25, min: 800, max: 1500, xp: 100, lvl: 8, image: "assets/job_bank_robbery.jpg" },
+                { id: 6, name: "Kumarhane Soygunu", energy: 35, min: 2000, max: 4000, xp: 200, lvl: 12, image: "assets/job_casino_heist.jpg" }
             ],
 
             items: [
-                { id: 1, name: "Sokak Serserisi", type: "Ünite", atk: 5, def: 5, price: 500, lvl: 1 },
-                { id: 2, name: "Kabadayı", type: "Ünite", atk: 15, def: 12, price: 2000, lvl: 3 },
-                { id: 3, name: "Tetikçi", type: "Ünite", atk: 30, def: 25, price: 8000, lvl: 7 },
-                { id: 4, name: "Muşta", type: "Silah", atk: 8, def: 2, price: 300, lvl: 1 },
-                { id: 5, name: "Tabanca", type: "Silah", atk: 20, def: 5, price: 1500, lvl: 4 },
-                { id: 6, name: "Pompalı", type: "Silah", atk: 35, def: 8, price: 5000, lvl: 8 },
-                { id: 7, name: "Deri Ceket", type: "Zırh", atk: 2, def: 10, price: 400, lvl: 2 },
-                { id: 8, name: "Kurşun Geçirmez Yelek", type: "Zırh", atk: 5, def: 30, price: 3000, lvl: 6 },
-                { id: 9, name: "Motor", type: "Araç", atk: 10, def: 8, price: 2500, lvl: 3 },
-                { id: 10, name: "Spor Araba", type: "Araç", atk: 25, def: 20, price: 10000, lvl: 9 }
+                { id: 1, name: "Sokak Serserisi", type: "Ünite", atk: 5, def: 5, price: 500, lvl: 1, image: "assets/unit_thug.jpg" },
+                { id: 2, name: "Kabadayı", type: "Ünite", atk: 15, def: 12, price: 2000, lvl: 3, image: "assets/unit_tough_guy.jpg" },
+                { id: 3, name: "Tetikçi", type: "Ünite", atk: 30, def: 25, price: 8000, lvl: 7, image: "assets/unit_hitman.jpg" },
+                { id: 4, name: "Muşta", type: "Silah", atk: 8, def: 2, price: 300, lvl: 1, image: "assets/item_brass_knuckles.jpg" },
+                { id: 5, name: "Tabanca", type: "Silah", atk: 20, def: 5, price: 1500, lvl: 4, image: "assets/item_pistol.jpg" },
+                { id: 6, name: "Pompalı", type: "Silah", atk: 35, def: 8, price: 5000, lvl: 8, image: "assets/item_shotgun.jpg" },
+                { id: 7, name: "Deri Ceket", type: "Zırh", atk: 2, def: 10, price: 400, lvl: 2, image: "assets/item_leather_jacket.jpg" },
+                { id: 8, name: "Kurşun Geçirmez Yelek", type: "Zırh", atk: 5, def: 30, price: 3000, lvl: 6, image: "assets/item_bulletproof_vest.jpg" },
+                { id: 9, name: "Motor", type: "Araç", atk: 10, def: 8, price: 2500, lvl: 3, image: "assets/item_motorcycle.jpg" },
+                { id: 10, name: "Spor Araba", type: "Araç", atk: 25, def: 20, price: 10000, lvl: 9, image: "assets/item_sports_car.jpg" }
             ],
 
             propertiesList: [
-                { id: 1, name: "Sokak Köşesi", price: 1000, income: 50, lvl: 1 },
-                { id: 2, name: "Rehinli Dükkan", price: 5000, income: 200, lvl: 3 },
-                { id: 3, name: "Internet Cafe", price: 15000, income: 500, lvl: 6 },
-                { id: 4, name: "Bar", price: 40000, income: 1200, lvl: 9 },
-                { id: 5, name: "Gece Kulübü", price: 100000, income: 3000, lvl: 13 }
+                { id: 1, name: "Sokak Köşesi", price: 1000, income: 50, lvl: 1, image: "assets/prop_street_corner.jpg" },
+                { id: 2, name: "Rehinli Dükkan", price: 5000, income: 200, lvl: 3, image: "assets/prop_pawn_shop.jpg" },
+                { id: 3, name: "Internet Cafe", price: 15000, income: 500, lvl: 6, image: "assets/prop_internet_cafe.jpg" },
+                { id: 4, name: "Bar", price: 40000, income: 1200, lvl: 9, image: "assets/prop_bar.jpg" },
+                { id: 5, name: "Gece Kulübü", price: 100000, income: 3000, lvl: 13, image: "assets/prop_nightclub.jpg" }
             ],
 
+            opponents: [],
+
             init() {
+                this.load();
                 this.updateUI();
+                this.generateOpponents();
                 this.switchTab('jobs');
-                this.loadLeaderboard();
-                this.loadChat();
                 
                 setInterval(() => this.regenerate(), 60000);
-                setInterval(() => this.saveToCloud(), 30000);
-                setInterval(() => this.loadLeaderboard(), 60000);
-                setInterval(() => this.updateOnlineCount(), 10000);
-            },
-
-            async saveToCloud() {
-                if (!auth.currentUser) return;
-                
-                try {
-                    await mockFirebase.database.ref('users/' + auth.currentUser.uid).update({
-                        player: this.player,
-                        inventory: this.inventory,
-                        properties: this.properties,
-                        lastIncome: this.lastIncome,
-                        lastOnline: Date.now()
-                    });
-                    
-                    // Update leaderboard
-                    const combat = this.calculatePower();
-                    const score = this.player.level * 1000 + combat.attack + combat.defense;
-                    await mockFirebase.database.ref('leaderboard/' + auth.currentUser.uid).set({
-                        username: this.username,
-                        level: this.player.level,
-                        attack: combat.attack,
-                        defense: combat.defense,
-                        score: score,
-                        updatedAt: Date.now()
-                    });
-                    
-                    mockFirebase.save();
-                } catch (error) {
-                    console.error('Save error:', error);
-                }
-            },
-
-            async loadLeaderboard() {
-                try {
-                    const snapshot = await mockFirebase.database.ref('leaderboard').once('value');
-                    const data = snapshot.val() || {};
-                    
-                    this.leaderboard = Object.entries(data)
-                        .map(([uid, user]) => ({ uid, ...user }))
-                        .sort((a, b) => b.score - a.score)
-                        .slice(0, 100);
-                    
-                    // Update player rank
-                    const myRank = this.leaderboard.findIndex(u => u.uid === auth.currentUser?.uid);
-                    if (myRank >= 0) {
-                        document.getElementById('playerRank').textContent = '#' + (myRank + 1);
-                    }
-                } catch (error) {
-                    console.error('Leaderboard error:', error);
-                }
-            },
-
-            async loadChat() {
-                try {
-                    mockFirebase.database.ref('chat').on('value', (snapshot) => {
-                        const messages = snapshot.val() || [];
-                        this.chatMessages = Object.values(messages).slice(-50);
-                        if (this.currentTab === 'chat') {
-                            this.renderChat();
-                        }
-                    });
-                } catch (error) {
-                    console.error('Chat error:', error);
-                }
-            },
-
-            async sendMessage(text) {
-                if (!text.trim()) return;
-                
-                try {
-                    const messageId = 'msg_' + Date.now();
-                    await mockFirebase.database.ref('chat/' + messageId).set({
-                        username: this.username,
-                        text: text,
-                        timestamp: Date.now()
-                    });
-                    mockFirebase.save();
-                } catch (error) {
-                    console.error('Send message error:', error);
-                }
-            },
-
-            updateOnlineCount() {
-                // Simulate online count
-                const count = Math.floor(Math.random() * 50) + 10;
-                document.getElementById('onlineCount').textContent = count;
+                setInterval(() => this.save(), 10000);
             },
 
             regenerate() {
@@ -802,12 +303,31 @@
                 p.stamina = Math.min(p.maxStamina, p.stamina + 1);
                 p.health = Math.min(p.maxHealth, p.health + 1);
                 this.updateUI();
-                this.saveToCloud();
+            },
+
+            save() {
+                const data = {
+                    player: this.player,
+                    inventory: this.inventory,
+                    properties: this.properties,
+                    lastIncome: this.lastIncome
+                };
+                localStorage.setItem('gangsterWars', JSON.stringify(data));
+            },
+
+            load() {
+                const saved = localStorage.getItem('gangsterWars');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    this.player = data.player;
+                    this.inventory = data.inventory || [];
+                    this.properties = data.properties || [];
+                    this.lastIncome = data.lastIncome || Date.now();
+                }
             },
 
             updateUI() {
                 const p = this.player;
-                document.getElementById('playerName').textContent = this.username || p.name;
                 document.getElementById('playerLevel').textContent = `Level ${p.level}`;
                 document.getElementById('playerXp').textContent = `XP: ${p.xp}/${p.xpToNext}`;
                 
@@ -866,262 +386,164 @@
                 const content = document.getElementById('content');
                 
                 if (tab === 'jobs') {
-                    this.renderJobs(content);
+                    content.innerHTML = '<h2>💼 İşler</h2><div class="grid" id="jobsGrid"></div>';
+                    const grid = document.getElementById('jobsGrid');
+                    this.jobs.forEach(job => {
+                        const canDo = this.player.level >= job.lvl && this.player.energy >= job.energy;
+                        grid.innerHTML += `
+                            <div class="card ${!canDo ? 'disabled' : ''}" onclick="${canDo ? `game.doJob(${job.id})` : ''}">
+                                <img src="${job.image}" alt="${job.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel Yükleniyor%3C/text%3E%3C/svg%3E'">
+                                <div class="card-content">
+                                    <h3>${job.name}</h3>
+                                    <p class="text-small">⚡ Energy: ${job.energy}</p>
+                                    <p class="text-small">💰 $${job.min} - $${job.max}</p>
+                                    <p class="text-small">⭐ XP: ${job.xp}</p>
+                                    <p class="text-small ${this.player.level >= job.lvl ? 'text-green' : 'text-red'}">Level ${job.lvl}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
                 } else if (tab === 'fight') {
-                    this.renderFight(content);
+                    content.innerHTML = '<h2>⚔️ Dövüş</h2><div class="grid" id="fightGrid"></div>';
+                    const grid = document.getElementById('fightGrid');
+                    this.opponents.forEach(opp => {
+                        grid.innerHTML += `
+                            <div class="card">
+                                <h3>${opp.name}</h3>
+                                <p class="text-small">Level: ${opp.level}</p>
+                                <p class="text-red">⚔️ ${opp.atk}</p>
+                                <p class="text-blue">🛡️ ${opp.def}</p>
+                                <p class="text-green">💰 $${opp.cash}</p>
+                                <button class="btn-red" onclick="game.attack(${opp.id})" ${this.player.stamina < 5 ? 'disabled' : ''}>
+                                    Saldır (5 stamina)
+                                </button>
+                            </div>
+                        `;
+                    });
                 } else if (tab === 'shop') {
-                    this.renderShop(content);
+                    content.innerHTML = '<h2>🛒 Market</h2>';
+                    if (this.inventory.length > 0) {
+                        content.innerHTML += '<h3>Envanteriniz</h3><div class="grid" id="invGrid"></div>';
+                        const invGrid = document.getElementById('invGrid');
+                        this.inventory.forEach(inv => {
+                            const item = this.items.find(i => i.id === inv.id);
+                            if (item) {
+                                invGrid.innerHTML += `
+                                    <div class="card disabled">
+                                        <img src="${item.image}" alt="${item.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel%3C/text%3E%3C/svg%3E'">
+                                        <h3>${item.name}</h3>
+                                        <p>Adet: x${inv.qty}</p>
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+                    content.innerHTML += '<h3 style="margin-top:20px">Satın Al</h3><div class="grid" id="shopGrid"></div>';
+                    const grid = document.getElementById('shopGrid');
+                    this.items.forEach(item => {
+                        const canBuy = this.player.level >= item.lvl && this.player.cash >= item.price;
+                        grid.innerHTML += `
+                            <div class="card ${!canBuy ? 'disabled' : ''}">
+                                <img src="${item.image}" alt="${item.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel%3C/text%3E%3C/svg%3E'">
+                                <div class="card-content">
+                                    <h3>${item.name}</h3>
+                                    <p class="text-small">${item.type}</p>
+                                    <p class="text-red">⚔️ ${item.atk}</p>
+                                    <p class="text-blue">🛡️ ${item.def}</p>
+                                    <p class="text-green">💰 $${item.price.toLocaleString()}</p>
+                                    <p class="text-small ${this.player.level >= item.lvl ? 'text-green' : 'text-red'}">Level ${item.lvl}</p>
+                                    <button onclick="game.buyItem(${item.id})" ${!canBuy ? 'disabled' : ''}>Satın Al</button>
+                                </div>
+                            </div>
+                        `;
+                    });
                 } else if (tab === 'properties') {
-                    this.renderProperties(content);
-                } else if (tab === 'leaderboard') {
-                    this.renderLeaderboard(content);
-                } else if (tab === 'chat') {
-                    this.renderChat(content);
+                    const hourlyIncome = this.properties.reduce((sum, p) => {
+                        const prop = this.propertiesList.find(pr => pr.id === p.id);
+                        return sum + (prop?.income || 0) * p.qty;
+                    }, 0);
+                    
+                    content.innerHTML = `
+                        <h2>🏢 Mülkler</h2>
+                        <div class="stat-card" style="margin-bottom:20px">
+                            <div class="flex">
+                                <div>
+                                    <p class="text-small">Saatlik Gelir</p>
+                                    <p class="text-green" style="font-size:28px">$${hourlyIncome.toLocaleString()}/saat</p>
+                                </div>
+                                <button onclick="game.collectIncome()">Geliri Topla</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    if (this.properties.length > 0) {
+                        content.innerHTML += '<h3>Mülkleriniz</h3><div class="grid" id="ownedProps"></div>';
+                        const ownedGrid = document.getElementById('ownedProps');
+                        this.properties.forEach(prop => {
+                            const p = this.propertiesList.find(pr => pr.id === prop.id);
+                            if (p) {
+                                ownedGrid.innerHTML += `
+                                    <div class="card disabled">
+                                        <img src="${p.image}" alt="${p.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel%3C/text%3E%3C/svg%3E'">
+                                        <h3>${p.name}</h3>
+                                        <p>Adet: x${prop.qty}</p>
+                                        <p class="text-green">$${p.income}/saat</p>
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+                    
+                    content.innerHTML += '<h3 style="margin-top:20px">Satın Al</h3><div class="grid" id="propsGrid"></div>';
+                    const grid = document.getElementById('propsGrid');
+                    this.propertiesList.forEach(prop => {
+                        const owned = this.properties.filter(p => p.id === prop.id).reduce((s, p) => s + p.qty, 0);
+                        const currentPrice = Math.floor(prop.price * Math.pow(1.5, owned));
+                        const canBuy = this.player.level >= prop.lvl && this.player.cash >= currentPrice;
+                        
+                        grid.innerHTML += `
+                            <div class="card ${!canBuy ? 'disabled' : ''}">
+                                <img src="${prop.image}" alt="${prop.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel%3C/text%3E%3C/svg%3E'">
+                                <div class="card-content">
+                                    <h3>${prop.name}</h3>
+                                    <p class="text-green">💵 $${prop.income}/saat</p>
+                                    <p class="text-yellow">💰 $${currentPrice.toLocaleString()}</p>
+                                    <p class="text-small">Sahip olunan: ${owned}</p>
+                                    <p class="text-small ${this.player.level >= prop.lvl ? 'text-green' : 'text-red'}">Level ${prop.lvl}</p>
+                                    <button onclick="game.buyProperty(${prop.id})" ${!canBuy ? 'disabled' : ''}>Satın Al</button>
+                                </div>
+                            </div>
+                        `;
+                    });
                 } else if (tab === 'bank') {
-                    this.renderBank(content);
-                }
-            },
-
-            renderJobs(content) {
-                content.innerHTML = '<h2>💼 İşler</h2><div class="grid" id="jobsGrid"></div>';
-                const grid = document.getElementById('jobsGrid');
-                this.jobs.forEach(job => {
-                    const canDo = this.player.level >= job.lvl && this.player.energy >= job.energy;
-                    const card = document.createElement('div');
-                    card.className = `card ${!canDo ? 'disabled' : ''}`;
-                    if (canDo) card.onclick = () => this.doJob(job.id);
-                    card.innerHTML = `
-                        <h3>${job.name}</h3>
-                        <p class="text-small">⚡ Energy: ${job.energy}</p>
-                        <p class="text-small">💰 $${job.min} - $${job.max}</p>
-                        <p class="text-small">⭐ XP: ${job.xp}</p>
-                        <p class="text-small ${this.player.level >= job.lvl ? 'text-green' : 'text-red'}">Level ${job.lvl}</p>
-                    `;
-                    grid.appendChild(card);
-                });
-            },
-
-            renderFight(content) {
-                content.innerHTML = '<h2>⚔️ Gerçek Oyunculara Saldır</h2><p class="text-small mb-2">Online oyuncularla dövüş!</p><div class="grid" id="fightGrid"></div>';
-                const grid = document.getElementById('fightGrid');
-                
-                // Load other players from leaderboard
-                const opponents = this.leaderboard
-                    .filter(p => p.uid !== auth.currentUser?.uid)
-                    .slice(0, 10);
-                
-                opponents.forEach(opp => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.innerHTML = `
-                        <h3><span class="online-indicator"></span>${opp.username}</h3>
-                        <p class="text-small">Level: ${opp.level}</p>
-                        <p class="text-red">⚔️ ${opp.attack}</p>
-                        <p class="text-blue">🛡️ ${opp.defense}</p>
-                        <button class="btn-red" onclick="game.attackPlayer('${opp.uid}')" ${this.player.stamina < 5 ? 'disabled' : ''}>
-                            Saldır (5 stamina)
-                        </button>
-                    `;
-                    grid.appendChild(card);
-                });
-                
-                if (opponents.length === 0) {
-                    grid.innerHTML = '<p class="text-small">Henüz başka oyuncu yok. İlk oyuncular arasındasınız!</p>';
-                }
-            },
-
-            renderShop(content) {
-                content.innerHTML = '<h2>🛒 Market</h2>';
-                if (this.inventory.length > 0) {
-                    content.innerHTML += '<h3>Envanteriniz</h3><div class="grid" id="invGrid"></div>';
-                    const invGrid = document.getElementById('invGrid');
-                    this.inventory.forEach(inv => {
-                        const item = this.items.find(i => i.id === inv.id);
-                        if (item) {
-                            const card = document.createElement('div');
-                            card.className = 'card disabled';
-                            card.innerHTML = `
-                                <h3>${item.name}</h3>
-                                <p>Adet: x${inv.qty}</p>
-                            `;
-                            invGrid.appendChild(card);
-                        }
-                    });
-                }
-                content.innerHTML += '<h3 style="margin-top:20px">Satın Al</h3><div class="grid" id="shopGrid"></div>';
-                const grid = document.getElementById('shopGrid');
-                this.items.forEach(item => {
-                    const canBuy = this.player.level >= item.lvl && this.player.cash >= item.price;
-                    const card = document.createElement('div');
-                    card.className = `card ${!canBuy ? 'disabled' : ''}`;
-                    card.innerHTML = `
-                        <h3>${item.name}</h3>
-                        <p class="text-small">${item.type}</p>
-                        <p class="text-red">⚔️ ${item.atk}</p>
-                        <p class="text-blue">🛡️ ${item.def}</p>
-                        <p class="text-green">💰 $${item.price.toLocaleString()}</p>
-                        <p class="text-small ${this.player.level >= item.lvl ? 'text-green' : 'text-red'}">Level ${item.lvl}</p>
-                        <button onclick="game.buyItem(${item.id})" ${!canBuy ? 'disabled' : ''}>Satın Al</button>
-                    `;
-                    grid.appendChild(card);
-                });
-            },
-
-            renderProperties(content) {
-                const hourlyIncome = this.properties.reduce((sum, p) => {
-                    const prop = this.propertiesList.find(pr => pr.id === p.id);
-                    return sum + (prop?.income || 0) * p.qty;
-                }, 0);
-                
-                content.innerHTML = `
-                    <h2>🏢 Mülkler</h2>
-                    <div class="stat-card" style="margin-bottom:20px">
-                        <div class="flex">
-                            <div>
-                                <p class="text-small">Saatlik Gelir</p>
-                                <p class="text-green" style="font-size:28px">$${hourlyIncome.toLocaleString()}/saat</p>
+                    content.innerHTML = `
+                        <h2>🏦 Banka</h2>
+                        <div class="stat-card" style="margin-bottom:20px">
+                            <h3>Hesap Özeti</h3>
+                            <div class="flex" style="margin:15px 0">
+                                <span>Nakit:</span>
+                                <span class="text-green" style="font-size:20px">$${this.player.cash.toLocaleString()}</span>
                             </div>
-                            <button onclick="game.collectIncome()">Geliri Topla</button>
-                        </div>
-                    </div>
-                `;
-                
-                if (this.properties.length > 0) {
-                    content.innerHTML += '<h3>Mülkleriniz</h3><div class="grid" id="ownedProps"></div>';
-                    const ownedGrid = document.getElementById('ownedProps');
-                    this.properties.forEach(prop => {
-                        const p = this.propertiesList.find(pr => pr.id === prop.id);
-                        if (p) {
-                            const card = document.createElement('div');
-                            card.className = 'card disabled';
-                            card.innerHTML = `
-                                <h3>${p.name}</h3>
-                                <p>Adet: x${prop.qty}</p>
-                                <p class="text-green">$${p.income}/saat</p>
-                            `;
-                            ownedGrid.appendChild(card);
-                        }
-                    });
-                }
-                
-                content.innerHTML += '<h3 style="margin-top:20px">Satın Al</h3><div class="grid" id="propsGrid"></div>';
-                const grid = document.getElementById('propsGrid');
-                this.propertiesList.forEach(prop => {
-                    const owned = this.properties.filter(p => p.id === prop.id).reduce((s, p) => s + p.qty, 0);
-                    const currentPrice = Math.floor(prop.price * Math.pow(1.5, owned));
-                    const canBuy = this.player.level >= prop.lvl && this.player.cash >= currentPrice;
-                    
-                    const card = document.createElement('div');
-                    card.className = `card ${!canBuy ? 'disabled' : ''}`;
-                    card.innerHTML = `
-                        <h3>${prop.name}</h3>
-                        <p class="text-green">💵 $${prop.income}/saat</p>
-                        <p class="text-yellow">💰 $${currentPrice.toLocaleString()}</p>
-                        <p class="text-small">Sahip olunan: ${owned}</p>
-                        <p class="text-small ${this.player.level >= prop.lvl ? 'text-green' : 'text-red'}">Level ${prop.lvl}</p>
-                        <button onclick="game.buyProperty(${prop.id})" ${!canBuy ? 'disabled' : ''}>Satın Al</button>
-                    `;
-                    grid.appendChild(card);
-                });
-            },
-
-            renderLeaderboard(content) {
-                content.innerHTML = '<h2>🏆 Liderlik Tablosu</h2><p class="text-small mb-2">En güçlü gangsterler</p>';
-                
-                this.leaderboard.slice(0, 50).forEach((user, index) => {
-                    const isMe = user.uid === auth.currentUser?.uid;
-                    const div = document.createElement('div');
-                    div.className = `leaderboard-item rank-${index + 1}`;
-                    if (isMe) div.style.background = 'rgba(231, 76, 60, 0.2)';
-                    div.innerHTML = `
-                        <div class="flex">
-                            <div>
-                                <strong>${index + 1}. ${user.username}</strong>
-                                ${isMe ? '<span class="text-yellow"> (SİZ)</span>' : ''}
-                                <p class="text-small">Level ${user.level} | ⚔️ ${user.attack} | 🛡️ ${user.defense}</p>
+                            <div class="flex">
+                                <span>Banka:</span>
+                                <span class="text-blue" style="font-size:20px">$${this.player.bank.toLocaleString()}</span>
                             </div>
-                            <div class="text-yellow" style="font-size: 20px;">${user.score.toLocaleString()}</div>
+                        </div>
+                        
+                        <div class="stat-card" style="margin-bottom:20px">
+                            <h3>Para Yatır</h3>
+                            <button class="btn-blue" onclick="game.deposit(0.25)" ${this.player.cash < 1 ? 'disabled' : ''}>%25 Yatır</button>
+                            <button class="btn-blue" onclick="game.deposit(0.5)" ${this.player.cash < 1 ? 'disabled' : ''}>%50 Yatır</button>
+                            <button class="btn-blue" onclick="game.deposit(1)" ${this.player.cash < 1 ? 'disabled' : ''}>Tümünü Yatır</button>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <h3>Para Çek</h3>
+                            <button onclick="game.withdraw(0.25)" ${this.player.bank < 1 ? 'disabled' : ''}>%25 Çek</button>
+                            <button onclick="game.withdraw(0.5)" ${this.player.bank < 1 ? 'disabled' : ''}>%50 Çek</button>
+                            <button onclick="game.withdraw(1)" ${this.player.bank < 1 ? 'disabled' : ''}>Tümünü Çek</button>
                         </div>
                     `;
-                    content.appendChild(div);
-                });
-            },
-
-            renderChat(content) {
-                if (!content) content = document.getElementById('content');
-                content.innerHTML = `
-                    <h2>💬 Genel Sohbet</h2>
-                    <div class="chat-container" id="chatContainer"></div>
-                    <div class="chat-input">
-                        <input type="text" id="chatInput" placeholder="Mesaj yaz..." maxlength="200">
-                        <button onclick="game.sendChatMessage()" style="width: auto; padding: 10px 20px;">Gönder</button>
-                    </div>
-                `;
-                
-                const container = document.getElementById('chatContainer');
-                this.chatMessages.forEach(msg => {
-                    const div = document.createElement('div');
-                    div.className = 'chat-message';
-                    const time = new Date(msg.timestamp).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-                    div.innerHTML = `
-                        <strong class="text-yellow">${msg.username}</strong>
-                        <span class="text-small"> ${time}</span><br>
-                        ${this.escapeHtml(msg.text)}
-                    `;
-                    container.appendChild(div);
-                });
-                
-                container.scrollTop = container.scrollHeight;
-                
-                // Enter key support
-                document.getElementById('chatInput').onkeypress = (e) => {
-                    if (e.key === 'Enter') this.sendChatMessage();
-                };
-            },
-
-            renderBank(content) {
-                content.innerHTML = `
-                    <h2>🏦 Banka</h2>
-                    <div class="stat-card" style="margin-bottom:20px">
-                        <h3>Hesap Özeti</h3>
-                        <div class="flex" style="margin:15px 0">
-                            <span>Nakit:</span>
-                            <span class="text-green" style="font-size:20px">$${this.player.cash.toLocaleString()}</span>
-                        </div>
-                        <div class="flex">
-                            <span>Banka:</span>
-                            <span class="text-blue" style="font-size:20px">$${this.player.bank.toLocaleString()}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card" style="margin-bottom:20px">
-                        <h3>Para Yatır</h3>
-                        <button class="btn-blue" onclick="game.deposit(0.25)" ${this.player.cash < 1 ? 'disabled' : ''}>%25 Yatır</button>
-                        <button class="btn-blue" onclick="game.deposit(0.5)" ${this.player.cash < 1 ? 'disabled' : ''}>%50 Yatır</button>
-                        <button class="btn-blue" onclick="game.deposit(1)" ${this.player.cash < 1 ? 'disabled' : ''}>Tümünü Yatır</button>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <h3>Para Çek</h3>
-                        <button onclick="game.withdraw(0.25)" ${this.player.bank < 1 ? 'disabled' : ''}>%25 Çek</button>
-                        <button onclick="game.withdraw(0.5)" ${this.player.bank < 1 ? 'disabled' : ''}>%50 Çek</button>
-                        <button onclick="game.withdraw(1)" ${this.player.bank < 1 ? 'disabled' : ''}>Tümünü Çek</button>
-                    </div>
-                `;
-            },
-
-            escapeHtml(text) {
-                const div = document.createElement('div');
-                div.textContent = text;
-                return div.innerHTML;
-            },
-
-            sendChatMessage() {
-                const input = document.getElementById('chatInput');
-                const text = input.value.trim();
-                if (text) {
-                    this.sendMessage(text);
-                    input.value = '';
                 }
             },
 
@@ -1151,11 +573,23 @@
                 
                 this.notify(`${job.name} tamamlandı! $${earned} ve ${job.xp} XP kazandınız!`, 'info');
                 this.updateUI();
-                this.saveToCloud();
-                this.renderJobs(document.getElementById('content'));
+                this.switchTab('jobs');
             },
 
-            async attackPlayer(targetUid) {
+            generateOpponents() {
+                const names = ["Tony Scarface", "Büyük Mike", "Bıçakçı Johnny", "Deli Köpek", "Sessiz Sam"];
+                this.opponents = names.map((name, i) => ({
+                    id: i + 1,
+                    name,
+                    level: Math.max(1, this.player.level + Math.floor(Math.random() * 5) - 2),
+                    atk: 50 + Math.floor(Math.random() * 100),
+                    def: 50 + Math.floor(Math.random() * 100),
+                    cash: 1000 + Math.floor(Math.random() * 5000)
+                }));
+            },
+
+            attack(oppId) {
+                const opp = this.opponents.find(o => o.id === oppId);
                 const p = this.player;
                 
                 if (p.stamina < 5) {
@@ -1163,36 +597,12 @@
                     return;
                 }
                 
-                // Load target player
-                const snapshot = await mockFirebase.database.ref('users/' + targetUid).once('value');
-                const targetData = snapshot.val();
-                
-                if (!targetData) {
-                    this.notify('Oyuncu bulunamadı!', 'error');
-                    return;
-                }
-                
                 const combat = this.calculatePower();
                 const playerPower = combat.attack + Math.random() * 20 - 10;
+                const oppPower = opp.def + Math.random() * 20 - 10;
                 
-                // Calculate target power
-                let targetAttack = 0, targetDefense = 0;
-                const targetInventory = targetData.inventory || [];
-                const targetGangSize = targetData.player.gangSize || 1;
-                const max = Math.min(targetGangSize, targetInventory.length);
-                
-                for (let i = 0; i < max; i++) {
-                    const item = this.items.find(it => it.id === targetInventory[i]?.id);
-                    if (item) {
-                        targetAttack += item.atk * (targetInventory[i]?.qty || 1);
-                        targetDefense += item.def * (targetInventory[i]?.qty || 1);
-                    }
-                }
-                
-                const targetPower = targetDefense + Math.random() * 20 - 10;
-                const won = playerPower > targetPower;
-                
-                const stolen = won ? Math.floor((targetData.player.cash || 0) * 0.3) : 0;
+                const won = playerPower > oppPower;
+                const stolen = won ? Math.floor(opp.cash * 0.3) : 0;
                 const healthLost = won ? Math.floor(Math.random() * 10) + 5 : Math.floor(Math.random() * 20) + 10;
                 
                 p.stamina -= 5;
@@ -1201,22 +611,17 @@
                 if (won) {
                     p.cash += stolen;
                     p.xp += 50;
-                    this.notify(`⚔️ Zafer! ${targetData.username}'i yendiniz ve $${stolen} çaldınız!`, 'info');
-                    
-                    // Update target
-                    await mockFirebase.database.ref('users/' + targetUid + '/player/cash').set(
-                        Math.max(0, (targetData.player.cash || 0) - stolen)
-                    );
+                    this.notify(`⚔️ Zafer! ${opp.name}'i yendiniz ve $${stolen} çaldınız!`, 'info');
                 } else {
                     const lost = Math.floor(p.cash * 0.1);
                     p.cash = Math.max(0, p.cash - lost);
                     p.xp += 10;
-                    this.notify(`💀 Mağlubiyet! ${targetData.username} sizi yendi!`, 'error');
+                    this.notify(`💀 Mağlubiyet! ${opp.name} sizi yendi!`, 'error');
                 }
                 
+                this.generateOpponents();
                 this.updateUI();
-                this.saveToCloud();
-                this.renderFight(document.getElementById('content'));
+                this.switchTab('fight');
             },
 
             buyItem(itemId) {
@@ -1238,8 +643,7 @@
                 
                 this.notify(`${item.name} satın alındı!`, 'info');
                 this.updateUI();
-                this.saveToCloud();
-                this.renderShop(document.getElementById('content'));
+                this.switchTab('shop');
             },
 
             buyProperty(propId) {
@@ -1262,8 +666,7 @@
                 
                 this.notify(`${prop.name} satın alındı!`, 'info');
                 this.updateUI();
-                this.saveToCloud();
-                this.renderProperties(document.getElementById('content'));
+                this.switchTab('properties');
             },
 
             collectIncome() {
@@ -1282,7 +685,6 @@
                     this.lastIncome = now;
                     this.notify(`$${total} gelir toplandı!`, 'info');
                     this.updateUI();
-                    this.saveToCloud();
                 } else {
                     this.notify('Henüz toplanacak gelir yok!', 'info');
                 }
@@ -1295,8 +697,7 @@
                 this.player.bank += amount;
                 this.notify(`$${amount} yatırıldı!`, 'info');
                 this.updateUI();
-                this.saveToCloud();
-                this.renderBank(document.getElementById('content'));
+                this.switchTab('bank');
             },
 
             withdraw(percent) {
@@ -1306,15 +707,17 @@
                 this.player.cash += amount;
                 this.notify(`$${amount} çekildi!`, 'info');
                 this.updateUI();
-                this.saveToCloud();
-                this.renderBank(document.getElementById('content'));
+                this.switchTab('bank');
+            },
+
+            inviteFriend() {
+                this.player.gangSize++;
+                this.notify('Çete üyesi eklendi!', 'info');
+                this.updateUI();
             }
         };
 
-        // Auto-start
-        window.addEventListener('load', () => {
-            game.updateOnlineCount();
-        });
+        window.addEventListener('load', () => game.init());
     </script>
 </body>
 </html>
