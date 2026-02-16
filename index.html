@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gangster Wars - Görsel Versiyon</title>
+    <title>Çete Savaşları: Adana Sokakları</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -103,10 +103,6 @@
             border-radius: 6px;
             margin-bottom: 10px;
         }
-        .card-content {
-            display: flex;
-            flex-direction: column;
-        }
         button {
             padding: 10px 20px;
             background: #27ae60;
@@ -159,13 +155,12 @@
         h2 { margin-bottom: 15px; font-size: 24px; }
         h3 { margin-bottom: 10px; font-size: 18px; }
         .flex { display: flex; justify-content: space-between; align-items: center; }
-        .flex-col { display: flex; flex-direction: column; gap: 5px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔫 Gangster Wars</h1>
+            <h1>🔫 Çete Savaşları: Adana Sokakları</h1>
             <p>Suç imparatorluğunu kur ve sokakların kralı ol!</p>
         </div>
 
@@ -233,21 +228,12 @@
     <div class="notifications" id="notifications"></div>
 
     <script>
+        const IMG_BASE = "https://raw.githubusercontent.com/Dcenk/Cete-savaslar-/main/assets/";
+
         const game = {
             player: {
-                name: "Rookie Gangster",
-                level: 1,
-                xp: 0,
-                xpToNext: 100,
-                energy: 50,
-                maxEnergy: 50,
-                stamina: 20,
-                maxStamina: 20,
-                health: 100,
-                maxHealth: 100,
-                cash: 1000,
-                bank: 0,
-                gangSize: 1
+                name: "Rookie Gangster", level: 1, xp: 0, xpToNext: 100, energy: 50, maxEnergy: 50,
+                stamina: 20, maxStamina: 20, health: 100, maxHealth: 100, cash: 1000, bank: 0, gangSize: 1
             },
             inventory: [],
             properties: [],
@@ -256,33 +242,33 @@
             lastIncome: Date.now(),
 
             jobs: [
-                { id: 1, name: "Yankesicilik", energy: 5, min: 50, max: 100, xp: 10, lvl: 1, image: "assets/job_pickpocket.jpg" },
-                { id: 2, name: "Gasp", energy: 8, min: 80, max: 150, xp: 15, lvl: 1, image: "assets/job_mugging.jpg" },
-                { id: 3, name: "Dükkan Soygunu", energy: 12, min: 200, max: 400, xp: 30, lvl: 3, image: "assets/job_shop_robbery.jpg" },
-                { id: 4, name: "Araba Hırsızlığı", energy: 15, min: 300, max: 600, xp: 45, lvl: 5, image: "assets/job_car_theft.jpg" },
-                { id: 5, name: "Banka Soygunu", energy: 25, min: 800, max: 1500, xp: 100, lvl: 8, image: "assets/job_bank_robbery.jpg" },
-                { id: 6, name: "Kumarhane Soygunu", energy: 35, min: 2000, max: 4000, xp: 200, lvl: 12, image: "assets/job_casino_heist.jpg" }
+                { id: 1, name: "Yankesicilik", energy: 5, min: 50, max: 100, xp: 10, lvl: 1, image: IMG_BASE + "job_pickpocket.jpg" },
+                { id: 2, name: "Gasp", energy: 8, min: 80, max: 150, xp: 15, lvl: 1, image: IMG_BASE + "job_mugging.jpg" },
+                { id: 3, name: "Dükkan Soygunu", energy: 12, min: 200, max: 400, xp: 30, lvl: 3, image: IMG_BASE + "job_shop_robbery.jpg" },
+                { id: 4, name: "Araba Hırsızlığı", energy: 15, min: 300, max: 600, xp: 45, lvl: 5, image: IMG_BASE + "job_car_theft.jpg" },
+                { id: 5, name: "Banka Soygunu", energy: 25, min: 800, max: 1500, xp: 100, lvl: 8, image: IMG_BASE + "job_bank_robbery.jpg" },
+                { id: 6, name: "Kumarhane Soygunu", energy: 35, min: 2000, max: 4000, xp: 200, lvl: 12, image: IMG_BASE + "job_casino_heist.jpg" }
             ],
 
             items: [
-                { id: 1, name: "Sokak Serserisi", type: "Ünite", atk: 5, def: 5, price: 500, lvl: 1, image: "assets/unit_thug.jpg" },
-                { id: 2, name: "Kabadayı", type: "Ünite", atk: 15, def: 12, price: 2000, lvl: 3, image: "assets/unit_tough_guy.jpg" },
-                { id: 3, name: "Tetikçi", type: "Ünite", atk: 30, def: 25, price: 8000, lvl: 7, image: "assets/unit_hitman.jpg" },
-                { id: 4, name: "Muşta", type: "Silah", atk: 8, def: 2, price: 300, lvl: 1, image: "assets/item_brass_knuckles.jpg" },
-                { id: 5, name: "Tabanca", type: "Silah", atk: 20, def: 5, price: 1500, lvl: 4, image: "assets/item_pistol.jpg" },
-                { id: 6, name: "Pompalı", type: "Silah", atk: 35, def: 8, price: 5000, lvl: 8, image: "assets/item_shotgun.jpg" },
-                { id: 7, name: "Deri Ceket", type: "Zırh", atk: 2, def: 10, price: 400, lvl: 2, image: "assets/item_leather_jacket.jpg" },
-                { id: 8, name: "Kurşun Geçirmez Yelek", type: "Zırh", atk: 5, def: 30, price: 3000, lvl: 6, image: "assets/item_bulletproof_vest.jpg" },
-                { id: 9, name: "Motor", type: "Araç", atk: 10, def: 8, price: 2500, lvl: 3, image: "assets/item_motorcycle.jpg" },
-                { id: 10, name: "Spor Araba", type: "Araç", atk: 25, def: 20, price: 10000, lvl: 9, image: "assets/item_sports_car.jpg" }
+                { id: 1, name: "Sokak Serserisi", type: "Ünite", atk: 5, def: 5, price: 500, lvl: 1, image: IMG_BASE + "unit_thug.jpg" },
+                { id: 2, name: "Kabadayı", type: "Ünite", atk: 15, def: 12, price: 2000, lvl: 3, image: IMG_BASE + "unit_tough_guy.jpg" },
+                { id: 3, name: "Tetikçi", type: "Ünite", atk: 30, def: 25, price: 8000, lvl: 7, image: IMG_BASE + "unit_hitman.jpg" },
+                { id: 4, name: "Muşta", type: "Silah", atk: 8, def: 2, price: 300, lvl: 1, image: IMG_BASE + "item_brass_knuckles.jpg" },
+                { id: 5, name: "Tabanca", type: "Silah", atk: 20, def: 5, price: 1500, lvl: 4, image: IMG_BASE + "item_pistol.jpg" },
+                { id: 6, name: "Pompalı", type: "Silah", atk: 35, def: 8, price: 5000, lvl: 8, image: IMG_BASE + "item_shotgun.jpg" },
+                { id: 7, name: "Deri Ceket", type: "Zırh", atk: 2, def: 10, price: 400, lvl: 2, image: IMG_BASE + "item_leather_jacket.jpg" },
+                { id: 8, name: "Kurşun Geçirmez Yelek", type: "Zırh", atk: 5, def: 30, price: 3000, lvl: 6, image: IMG_BASE + "item_bulletproof_vest.jpg" },
+                { id: 9, name: "Motor", type: "Araç", atk: 10, def: 8, price: 2500, lvl: 3, image: IMG_BASE + "item_motorcycle.jpg" },
+                { id: 10, name: "Spor Araba", type: "Araç", atk: 25, def: 20, price: 10000, lvl: 9, image: IMG_BASE + "item_sports_car.jpg" }
             ],
 
             propertiesList: [
-                { id: 1, name: "Sokak Köşesi", price: 1000, income: 50, lvl: 1, image: "assets/prop_street_corner.jpg" },
-                { id: 2, name: "Rehinli Dükkan", price: 5000, income: 200, lvl: 3, image: "assets/prop_pawn_shop.jpg" },
-                { id: 3, name: "Internet Cafe", price: 15000, income: 500, lvl: 6, image: "assets/prop_internet_cafe.jpg" },
-                { id: 4, name: "Bar", price: 40000, income: 1200, lvl: 9, image: "assets/prop_bar.jpg" },
-                { id: 5, name: "Gece Kulübü", price: 100000, income: 3000, lvl: 13, image: "assets/prop_nightclub.jpg" }
+                { id: 1, name: "Sokak Köşesi", price: 1000, income: 50, lvl: 1, image: IMG_BASE + "prop_street_corner.jpg" },
+                { id: 2, name: "Rehinli Dükkan", price: 5000, income: 200, lvl: 3, image: IMG_BASE + "prop_pawn_shop.jpg" },
+                { id: 3, name: "Internet Cafe", price: 15000, income: 500, lvl: 6, image: IMG_BASE + "prop_internet_cafe.jpg" },
+                { id: 4, name: "Bar", price: 40000, income: 1200, lvl: 9, image: IMG_BASE + "prop_bar.jpg" },
+                { id: 5, name: "Gece Kulübü", price: 100000, income: 3000, lvl: 13, image: IMG_BASE + "prop_nightclub.jpg" }
             ],
 
             opponents: [],
@@ -292,7 +278,6 @@
                 this.updateUI();
                 this.generateOpponents();
                 this.switchTab('jobs');
-                
                 setInterval(() => this.regenerate(), 60000);
                 setInterval(() => this.save(), 10000);
             },
@@ -306,12 +291,7 @@
             },
 
             save() {
-                const data = {
-                    player: this.player,
-                    inventory: this.inventory,
-                    properties: this.properties,
-                    lastIncome: this.lastIncome
-                };
+                const data = { player: this.player, inventory: this.inventory, properties: this.properties, lastIncome: this.lastIncome };
                 localStorage.setItem('gangsterWars', JSON.stringify(data));
             },
 
@@ -330,19 +310,14 @@
                 const p = this.player;
                 document.getElementById('playerLevel').textContent = `Level ${p.level}`;
                 document.getElementById('playerXp').textContent = `XP: ${p.xp}/${p.xpToNext}`;
-                
                 document.getElementById('energyText').textContent = `${p.energy}/${p.maxEnergy}`;
                 document.getElementById('energyBar').style.width = `${(p.energy/p.maxEnergy)*100}%`;
-                
                 document.getElementById('staminaText').textContent = `${p.stamina}/${p.maxStamina}`;
                 document.getElementById('staminaBar').style.width = `${(p.stamina/p.maxStamina)*100}%`;
-                
                 document.getElementById('healthText').textContent = `${p.health}/${p.maxHealth}`;
                 document.getElementById('healthBar').style.width = `${(p.health/p.maxHealth)*100}%`;
-                
                 document.getElementById('cashAmount').textContent = `$${p.cash.toLocaleString()}`;
                 document.getElementById('bankAmount').textContent = `$${p.bank.toLocaleString()}`;
-                
                 const combat = this.calculatePower();
                 document.getElementById('attackPower').textContent = combat.attack;
                 document.getElementById('defensePower').textContent = combat.defense;
@@ -352,21 +327,15 @@
             calculatePower() {
                 let attack = 0, defense = 0;
                 const max = Math.min(this.player.gangSize, this.inventory.length);
-                
                 const sorted = [...this.inventory].sort((a, b) => {
                     const itemA = this.items.find(i => i.id === a.id);
                     const itemB = this.items.find(i => i.id === b.id);
                     return (itemB?.atk || 0) - (itemA?.atk || 0);
                 });
-
                 for (let i = 0; i < max; i++) {
                     const item = this.items.find(it => it.id === sorted[i].id);
-                    if (item) {
-                        attack += item.atk * sorted[i].qty;
-                        defense += item.def * sorted[i].qty;
-                    }
+                    if (item) { attack += item.atk * sorted[i].qty; defense += item.def * sorted[i].qty; }
                 }
-                
                 return { attack, defense };
             },
 
@@ -381,10 +350,8 @@
             switchTab(tab) {
                 this.currentTab = tab;
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                event.target.classList.add('active');
-                
+                if (event) event.target.classList.add('active');
                 const content = document.getElementById('content');
-                
                 if (tab === 'jobs') {
                     content.innerHTML = '<h2>💼 İşler</h2><div class="grid" id="jobsGrid"></div>';
                     const grid = document.getElementById('jobsGrid');
@@ -393,13 +360,9 @@
                         grid.innerHTML += `
                             <div class="card ${!canDo ? 'disabled' : ''}" onclick="${canDo ? `game.doJob(${job.id})` : ''}">
                                 <img src="${job.image}" alt="${job.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel Yükleniyor%3C/text%3E%3C/svg%3E'">
-                                <div class="card-content">
-                                    <h3>${job.name}</h3>
-                                    <p class="text-small">⚡ Energy: ${job.energy}</p>
-                                    <p class="text-small">💰 $${job.min} - $${job.max}</p>
-                                    <p class="text-small">⭐ XP: ${job.xp}</p>
-                                    <p class="text-small ${this.player.level >= job.lvl ? 'text-green' : 'text-red'}">Level ${job.lvl}</p>
-                                </div>
+                                <h3>${job.name}</h3>
+                                <p class="text-small">⚡ Energy: ${job.energy} | ⭐ XP: ${job.xp}</p>
+                                <p class="text-green">💰 $${job.min} - $${job.max}</p>
                             </div>
                         `;
                     });
@@ -411,310 +374,110 @@
                             <div class="card">
                                 <h3>${opp.name}</h3>
                                 <p class="text-small">Level: ${opp.level}</p>
-                                <p class="text-red">⚔️ ${opp.atk}</p>
-                                <p class="text-blue">🛡️ ${opp.def}</p>
-                                <p class="text-green">💰 $${opp.cash}</p>
-                                <button class="btn-red" onclick="game.attack(${opp.id})" ${this.player.stamina < 5 ? 'disabled' : ''}>
-                                    Saldır (5 stamina)
-                                </button>
+                                <p class="text-red">⚔️ ${opp.atk} | 🛡️ ${opp.def}</p>
+                                <button class="btn-red" onclick="game.attack(${opp.id})" ${this.player.stamina < 5 ? 'disabled' : ''}>Saldır (5 stamina)</button>
                             </div>
                         `;
                     });
                 } else if (tab === 'shop') {
-                    content.innerHTML = '<h2>🛒 Market</h2>';
-                    if (this.inventory.length > 0) {
-                        content.innerHTML += '<h3>Envanteriniz</h3><div class="grid" id="invGrid"></div>';
-                        const invGrid = document.getElementById('invGrid');
-                        this.inventory.forEach(inv => {
-                            const item = this.items.find(i => i.id === inv.id);
-                            if (item) {
-                                invGrid.innerHTML += `
-                                    <div class="card disabled">
-                                        <img src="${item.image}" alt="${item.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel%3C/text%3E%3C/svg%3E'">
-                                        <h3>${item.name}</h3>
-                                        <p>Adet: x${inv.qty}</p>
-                                    </div>
-                                `;
-                            }
-                        });
-                    }
-                    content.innerHTML += '<h3 style="margin-top:20px">Satın Al</h3><div class="grid" id="shopGrid"></div>';
+                    content.innerHTML = '<h2>🛒 Market</h2><div class="grid" id="shopGrid"></div>';
                     const grid = document.getElementById('shopGrid');
                     this.items.forEach(item => {
                         const canBuy = this.player.level >= item.lvl && this.player.cash >= item.price;
                         grid.innerHTML += `
                             <div class="card ${!canBuy ? 'disabled' : ''}">
-                                <img src="${item.image}" alt="${item.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel%3C/text%3E%3C/svg%3E'">
-                                <div class="card-content">
-                                    <h3>${item.name}</h3>
-                                    <p class="text-small">${item.type}</p>
-                                    <p class="text-red">⚔️ ${item.atk}</p>
-                                    <p class="text-blue">🛡️ ${item.def}</p>
-                                    <p class="text-green">💰 $${item.price.toLocaleString()}</p>
-                                    <p class="text-small ${this.player.level >= item.lvl ? 'text-green' : 'text-red'}">Level ${item.lvl}</p>
-                                    <button onclick="game.buyItem(${item.id})" ${!canBuy ? 'disabled' : ''}>Satın Al</button>
-                                </div>
+                                <img src="${item.image}" class="card-image">
+                                <h3>${item.name}</h3>
+                                <p class="text-red">⚔️ ${item.atk} | 🛡️ ${item.def}</p>
+                                <p class="text-green">💰 $${item.price.toLocaleString()}</p>
+                                <button onclick="game.buyItem(${item.id})" ${!canBuy ? 'disabled' : ''}>Satın Al</button>
                             </div>
                         `;
                     });
                 } else if (tab === 'properties') {
-                    const hourlyIncome = this.properties.reduce((sum, p) => {
-                        const prop = this.propertiesList.find(pr => pr.id === p.id);
-                        return sum + (prop?.income || 0) * p.qty;
-                    }, 0);
-                    
-                    content.innerHTML = `
-                        <h2>🏢 Mülkler</h2>
-                        <div class="stat-card" style="margin-bottom:20px">
-                            <div class="flex">
-                                <div>
-                                    <p class="text-small">Saatlik Gelir</p>
-                                    <p class="text-green" style="font-size:28px">$${hourlyIncome.toLocaleString()}/saat</p>
-                                </div>
-                                <button onclick="game.collectIncome()">Geliri Topla</button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    if (this.properties.length > 0) {
-                        content.innerHTML += '<h3>Mülkleriniz</h3><div class="grid" id="ownedProps"></div>';
-                        const ownedGrid = document.getElementById('ownedProps');
-                        this.properties.forEach(prop => {
-                            const p = this.propertiesList.find(pr => pr.id === prop.id);
-                            if (p) {
-                                ownedGrid.innerHTML += `
-                                    <div class="card disabled">
-                                        <img src="${p.image}" alt="${p.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel%3C/text%3E%3C/svg%3E'">
-                                        <h3>${p.name}</h3>
-                                        <p>Adet: x${prop.qty}</p>
-                                        <p class="text-green">$${p.income}/saat</p>
-                                    </div>
-                                `;
-                            }
-                        });
-                    }
-                    
-                    content.innerHTML += '<h3 style="margin-top:20px">Satın Al</h3><div class="grid" id="propsGrid"></div>';
+                    content.innerHTML = '<h2>🏢 Mülkler</h2><div class="grid" id="propsGrid"></div>';
                     const grid = document.getElementById('propsGrid');
                     this.propertiesList.forEach(prop => {
                         const owned = this.properties.filter(p => p.id === prop.id).reduce((s, p) => s + p.qty, 0);
-                        const currentPrice = Math.floor(prop.price * Math.pow(1.5, owned));
-                        const canBuy = this.player.level >= prop.lvl && this.player.cash >= currentPrice;
-                        
+                        const price = Math.floor(prop.price * Math.pow(1.5, owned));
+                        const canBuy = this.player.level >= prop.lvl && this.player.cash >= price;
                         grid.innerHTML += `
                             <div class="card ${!canBuy ? 'disabled' : ''}">
-                                <img src="${prop.image}" alt="${prop.name}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216%22%3EGörsel%3C/text%3E%3C/svg%3E'">
-                                <div class="card-content">
-                                    <h3>${prop.name}</h3>
-                                    <p class="text-green">💵 $${prop.income}/saat</p>
-                                    <p class="text-yellow">💰 $${currentPrice.toLocaleString()}</p>
-                                    <p class="text-small">Sahip olunan: ${owned}</p>
-                                    <p class="text-small ${this.player.level >= prop.lvl ? 'text-green' : 'text-red'}">Level ${prop.lvl}</p>
-                                    <button onclick="game.buyProperty(${prop.id})" ${!canBuy ? 'disabled' : ''}>Satın Al</button>
-                                </div>
+                                <img src="${prop.image}" class="card-image">
+                                <h3>${prop.name}</h3>
+                                <p class="text-green">💵 $${prop.income}/saat</p>
+                                <p class="text-yellow">💰 $${price.toLocaleString()}</p>
+                                <button onclick="game.buyProperty(${prop.id})" ${!canBuy ? 'disabled' : ''}>Satın Al</button>
                             </div>
                         `;
                     });
                 } else if (tab === 'bank') {
-                    content.innerHTML = `
-                        <h2>🏦 Banka</h2>
-                        <div class="stat-card" style="margin-bottom:20px">
-                            <h3>Hesap Özeti</h3>
-                            <div class="flex" style="margin:15px 0">
-                                <span>Nakit:</span>
-                                <span class="text-green" style="font-size:20px">$${this.player.cash.toLocaleString()}</span>
-                            </div>
-                            <div class="flex">
-                                <span>Banka:</span>
-                                <span class="text-blue" style="font-size:20px">$${this.player.bank.toLocaleString()}</span>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card" style="margin-bottom:20px">
-                            <h3>Para Yatır</h3>
-                            <button class="btn-blue" onclick="game.deposit(0.25)" ${this.player.cash < 1 ? 'disabled' : ''}>%25 Yatır</button>
-                            <button class="btn-blue" onclick="game.deposit(0.5)" ${this.player.cash < 1 ? 'disabled' : ''}>%50 Yatır</button>
-                            <button class="btn-blue" onclick="game.deposit(1)" ${this.player.cash < 1 ? 'disabled' : ''}>Tümünü Yatır</button>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <h3>Para Çek</h3>
-                            <button onclick="game.withdraw(0.25)" ${this.player.bank < 1 ? 'disabled' : ''}>%25 Çek</button>
-                            <button onclick="game.withdraw(0.5)" ${this.player.bank < 1 ? 'disabled' : ''}>%50 Çek</button>
-                            <button onclick="game.withdraw(1)" ${this.player.bank < 1 ? 'disabled' : ''}>Tümünü Çek</button>
-                        </div>
-                    `;
+                    content.innerHTML = '<h2>🏦 Banka</h2><div class="stat-card"><h3>Nakit: <span class="text-green">$'+this.player.cash.toLocaleString()+'</span></h3><h3>Banka: <span class="text-blue">$'+this.player.bank.toLocaleString()+'</span></h3><button class="btn-blue" onclick="game.deposit(1)">Tümünü Yatır</button><button onclick="game.withdraw(1)">Tümünü Çek</button></div>';
                 }
             },
 
             doJob(jobId) {
                 const job = this.jobs.find(j => j.id === jobId);
-                const p = this.player;
-                
-                if (p.energy < job.energy) {
-                    this.notify('Yeterli energy yok!', 'error');
-                    return;
-                }
-                
+                if (this.player.energy < job.energy) { this.notify('Yeterli energy yok!', 'error'); return; }
                 const earned = Math.floor(Math.random() * (job.max - job.min + 1)) + job.min;
-                p.energy -= job.energy;
-                p.cash += earned;
-                p.xp += job.xp;
-                
-                if (p.xp >= p.xpToNext) {
-                    p.xp -= p.xpToNext;
-                    p.level++;
-                    p.xpToNext = Math.floor(p.xpToNext * 1.5);
-                    p.maxEnergy += 5;
-                    p.maxStamina += 2;
-                    p.maxHealth += 10;
-                    this.notify(`🎉 LEVEL UP! Şimdi level ${p.level}!`, 'info');
+                this.player.energy -= job.energy; this.player.cash += earned; this.player.xp += job.xp;
+                if (this.player.xp >= this.player.xpToNext) {
+                    this.player.xp -= this.player.xpToNext; this.player.level++; this.player.xpToNext = Math.floor(this.player.xpToNext * 1.5);
+                    this.notify(`🎉 LEVEL UP! Şimdi level ${this.player.level}!`, 'info');
                 }
-                
-                this.notify(`${job.name} tamamlandı! $${earned} ve ${job.xp} XP kazandınız!`, 'info');
-                this.updateUI();
-                this.switchTab('jobs');
+                this.notify(`${job.name} tamamlandı! $${earned} kazandınız!`, 'info');
+                this.updateUI(); this.switchTab('jobs');
             },
 
             generateOpponents() {
                 const names = ["Tony Scarface", "Büyük Mike", "Bıçakçı Johnny", "Deli Köpek", "Sessiz Sam"];
-                this.opponents = names.map((name, i) => ({
-                    id: i + 1,
-                    name,
-                    level: Math.max(1, this.player.level + Math.floor(Math.random() * 5) - 2),
-                    atk: 50 + Math.floor(Math.random() * 100),
-                    def: 50 + Math.floor(Math.random() * 100),
-                    cash: 1000 + Math.floor(Math.random() * 5000)
-                }));
+                this.opponents = names.map((name, i) => ({ id: i + 1, name, level: this.player.level, atk: 50, def: 50, cash: 1000 }));
             },
 
             attack(oppId) {
-                const opp = this.opponents.find(o => o.id === oppId);
-                const p = this.player;
-                
-                if (p.stamina < 5) {
-                    this.notify('Yeterli stamina yok!', 'error');
-                    return;
-                }
-                
-                const combat = this.calculatePower();
-                const playerPower = combat.attack + Math.random() * 20 - 10;
-                const oppPower = opp.def + Math.random() * 20 - 10;
-                
-                const won = playerPower > oppPower;
-                const stolen = won ? Math.floor(opp.cash * 0.3) : 0;
-                const healthLost = won ? Math.floor(Math.random() * 10) + 5 : Math.floor(Math.random() * 20) + 10;
-                
-                p.stamina -= 5;
-                p.health = Math.max(0, p.health - healthLost);
-                
-                if (won) {
-                    p.cash += stolen;
-                    p.xp += 50;
-                    this.notify(`⚔️ Zafer! ${opp.name}'i yendiniz ve $${stolen} çaldınız!`, 'info');
-                } else {
-                    const lost = Math.floor(p.cash * 0.1);
-                    p.cash = Math.max(0, p.cash - lost);
-                    p.xp += 10;
-                    this.notify(`💀 Mağlubiyet! ${opp.name} sizi yendi!`, 'error');
-                }
-                
-                this.generateOpponents();
+                if (this.player.stamina < 5) { this.notify('Yeterli stamina yok!', 'error'); return; }
+                this.player.stamina -= 5;
+                const won = Math.random() > 0.5;
+                if (won) { this.player.cash += 500; this.notify('⚔️ Zafer! $500 çaldınız!', 'info'); }
+                else { this.notify('💀 Mağlubiyet!', 'error'); }
                 this.updateUI();
-                this.switchTab('fight');
             },
 
             buyItem(itemId) {
                 const item = this.items.find(i => i.id === itemId);
-                const p = this.player;
-                
-                if (p.cash < item.price) {
-                    this.notify('Yeterli para yok!', 'error');
-                    return;
-                }
-                
-                p.cash -= item.price;
+                if (this.player.cash < item.price) { this.notify('Yeterli para yok!', 'error'); return; }
+                this.player.cash -= item.price;
                 const existing = this.inventory.find(i => i.id === itemId);
-                if (existing) {
-                    existing.qty++;
-                } else {
-                    this.inventory.push({ id: itemId, qty: 1 });
-                }
-                
+                if (existing) existing.qty++; else this.inventory.push({ id: itemId, qty: 1 });
                 this.notify(`${item.name} satın alındı!`, 'info');
-                this.updateUI();
-                this.switchTab('shop');
+                this.updateUI(); this.switchTab('shop');
             },
 
             buyProperty(propId) {
                 const prop = this.propertiesList.find(p => p.id === propId);
                 const owned = this.properties.filter(p => p.id === propId).reduce((s, p) => s + p.qty, 0);
                 const price = Math.floor(prop.price * Math.pow(1.5, owned));
-                
-                if (this.player.cash < price) {
-                    this.notify('Yeterli para yok!', 'error');
-                    return;
-                }
-                
+                if (this.player.cash < price) { this.notify('Yeterli para yok!', 'error'); return; }
                 this.player.cash -= price;
                 const existing = this.properties.find(p => p.id === propId);
-                if (existing) {
-                    existing.qty++;
-                } else {
-                    this.properties.push({ id: propId, qty: 1 });
-                }
-                
+                if (existing) existing.qty++; else this.properties.push({ id: propId, qty: 1 });
                 this.notify(`${prop.name} satın alındı!`, 'info');
-                this.updateUI();
-                this.switchTab('properties');
-            },
-
-            collectIncome() {
-                const now = Date.now();
-                const hours = (now - this.lastIncome) / (1000 * 60 * 60);
-                let total = 0;
-                
-                this.properties.forEach(prop => {
-                    const p = this.propertiesList.find(pr => pr.id === prop.id);
-                    if (p) total += p.income * prop.qty * hours;
-                });
-                
-                total = Math.floor(total);
-                if (total > 0) {
-                    this.player.cash += total;
-                    this.lastIncome = now;
-                    this.notify(`$${total} gelir toplandı!`, 'info');
-                    this.updateUI();
-                } else {
-                    this.notify('Henüz toplanacak gelir yok!', 'info');
-                }
+                this.updateUI(); this.switchTab('properties');
             },
 
             deposit(percent) {
                 const amount = Math.floor(this.player.cash * percent);
-                if (amount < 1) return;
-                this.player.cash -= amount;
-                this.player.bank += amount;
-                this.notify(`$${amount} yatırıldı!`, 'info');
-                this.updateUI();
-                this.switchTab('bank');
+                this.player.cash -= amount; this.player.bank += amount;
+                this.updateUI(); this.switchTab('bank');
             },
 
             withdraw(percent) {
                 const amount = Math.floor(this.player.bank * percent);
-                if (amount < 1) return;
-                this.player.bank -= amount;
-                this.player.cash += amount;
-                this.notify(`$${amount} çekildi!`, 'info');
-                this.updateUI();
-                this.switchTab('bank');
+                this.player.bank -= amount; this.player.cash += amount;
+                this.updateUI(); this.switchTab('bank');
             },
 
-            inviteFriend() {
-                this.player.gangSize++;
-                this.notify('Çete üyesi eklendi!', 'info');
-                this.updateUI();
-            }
+            inviteFriend() { this.player.gangSize++; this.notify('Çete üyesi eklendi!', 'info'); this.updateUI(); }
         };
 
         window.addEventListener('load', () => game.init());
